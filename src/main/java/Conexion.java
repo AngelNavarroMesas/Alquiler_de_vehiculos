@@ -33,6 +33,15 @@ public class Conexion {
         return vehiculo;
     }
 
+    public AlquileresEntity leerAlquiler(String id) throws Exception {
+        abrir();
+        AlquileresEntity alquiler = session.get(AlquileresEntity.class, id);
+        cerrar();
+        System.out.println(alquiler.getMatricula()+" "+alquiler.getMarca()+" "+alquiler.getModelo());
+
+        return alquiler;
+    }
+
     public List listar() throws Exception {
         abrir();
         List lista= session.getNamedQuery("listaVehiculos").getResultList();
