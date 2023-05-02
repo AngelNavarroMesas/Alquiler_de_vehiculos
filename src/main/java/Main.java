@@ -6,17 +6,16 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         con = new Conexion();
-        con.setUp();
         menu();
     }
-    public static void menu(){
+    public static void menu() throws Exception {
         Scanner sc = new Scanner(System.in);
         System.out.println("Elige una opcion");
-        System.out.println("1- insertarEmpresa");
+        System.out.println("1- insertar");
         System.out.println("2- listar");
         System.out.println("3- modificar");
         System.out.println("4- borrar");
-        System.out.println("5- buscar estudiante");
+        System.out.println("5- alquilar coche");
         System.out.println("6- buscar estudiante por nombre");
         System.out.println("9- salir");
         int op = sc.nextInt();
@@ -40,7 +39,7 @@ public class Main {
 
     }
 
-    public static void alquilarCoche(){
+    public static void alquilarCoche() throws Exception {
         Scanner sc = new Scanner(System.in);
         java.util.Date fecha = new Date();
         AlquileresEntity alquiler = new AlquileresEntity();
@@ -56,9 +55,11 @@ public class Main {
 
         VehiculosEntity vehiculo=con.leerCoche(matricula);
         vehiculo.setEstaEnTaller(false);
+        con.guardarV(vehiculo);
+        con.guardarA(alquiler);
     }
 
-    public static void insertar(){
+    public static void insertar() throws Exception {
         Scanner sc = new Scanner(System.in);
         if(con!=null) {
             System.out.println("¿Que desea insertar?");
@@ -71,6 +72,7 @@ public class Main {
                     EmpresasEntity empresa = new EmpresasEntity();
                     System.out.println("introduce nombre");
                     empresa.setNombre(sc.nextLine());
+                    empresa.setNombre(sc.nextLine());
                     System.out.println("introduce CIF");
                     empresa.setCIF(sc.nextLine());
                     con.guardarE(empresa);
@@ -78,6 +80,7 @@ public class Main {
                 case 2:
                     VehiculosEntity vehiculo = new VehiculosEntity();
                     System.out.println("introduce matricula");
+                    vehiculo.setMatricula(sc.nextLine());
                     vehiculo.setMatricula(sc.nextLine());
                     System.out.println("introduce modelo");
                     vehiculo.setModelo(sc.nextLine());
@@ -91,6 +94,7 @@ public class Main {
         }else{
             System.out.println("La conexion no funciona");
         }
+        sc.close();
     }
 
     public static void salir(){}

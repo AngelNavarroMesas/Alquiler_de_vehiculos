@@ -4,7 +4,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "Alquileres")
-@NamedQuery(name="listaCompleta", query="FROM AlquileresEntity e")
+@NamedQuery(name="listaAlquileres", query="FROM AlquileresEntity e")
 public class AlquileresEntity implements Serializable{
     @Id
     @Column

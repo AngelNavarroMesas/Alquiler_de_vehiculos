@@ -3,7 +3,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "Vehiculos")
-@NamedQuery(name="listaCompleta", query="FROM VehiculosEntity e")
+@NamedQuery(name="listaVehiculos", query="FROM VehiculosEntity e")
 public class VehiculosEntity implements Serializable{
     @Id
     @Column

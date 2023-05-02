@@ -24,7 +24,7 @@ public class Conexion {
         }
     }
 
-    public VehiculosEntity leerCoche(String matricula){
+    public VehiculosEntity leerCoche(String matricula) throws Exception {
         abrir();
         VehiculosEntity vehiculo = session.get(VehiculosEntity.class, matricula);
         cerrar();
@@ -33,27 +33,34 @@ public class Conexion {
         return vehiculo;
     }
 
-    public List listar() {
+    public List listar() throws Exception {
         abrir();
-        List lista= session.getNamedQuery("listaCompleta").getResultList();
+        List lista= session.getNamedQuery("listaVehiculos").getResultList();
         cerrar();
         return lista;
     }
 
-    public int guardarE(EmpresasEntity empresa) {
+    public String guardarE(EmpresasEntity empresa) throws Exception {
         abrir();
-        int id = (int) session.save(empresa);
+        String id = (String) session.save(empresa);
         cerrar();
         return id;
     }
-    public int guardarV(VehiculosEntity vehiculos) {
+    public String guardarV(VehiculosEntity vehiculos) throws Exception {
         abrir();
-        int id = (int) session.save(vehiculos);
+        String id = (String) session.save(vehiculos);
+        cerrar();
+        return id;
+    }
+    public String guardarA(AlquileresEntity alquiler) throws Exception {
+        abrir();
+        String id = (String) session.save(alquiler);
         cerrar();
         return id;
     }
 
-    private void abrir(){
+    private void abrir() throws Exception {
+        setUp();
         session = sessionFactory.openSession();
         transaction = session.beginTransaction();
     }
