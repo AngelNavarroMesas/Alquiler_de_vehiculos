@@ -59,6 +59,12 @@ public class Conexion {
         return id;
     }
 
+    public void actualizarV(VehiculosEntity vehiculos) throws Exception {
+        abrir();
+        session.update(vehiculos);
+        cerrar();
+    }
+
     private void abrir() throws Exception {
         setUp();
         session = sessionFactory.openSession();

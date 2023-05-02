@@ -16,7 +16,7 @@ public class Main {
         System.out.println("3- modificar");
         System.out.println("4- borrar");
         System.out.println("5- alquilar coche");
-        System.out.println("6- buscar estudiante por nombre");
+        System.out.println("6- buscar coche por matricula");
         System.out.println("9- salir");
         int op = sc.nextInt();
 
@@ -31,12 +31,23 @@ public class Main {
             //    break;
             case 5: alquilarCoche();
                 break;
-            //case 6: buscarPorNombre();
-            //    break;
+            case 6: buscarcoche();
+                break;
             case 9: salir();
                 break;
         }
 
+    }
+
+    private static void buscarcoche() {
+        try{
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Inserte la matricula del coche");
+            String matricula = sc.nextLine();
+            VehiculosEntity vehiculo = con.leerCoche(matricula);
+        }catch (Exception e){
+
+        }
     }
 
     public static void alquilarCoche() throws Exception {
@@ -47,16 +58,16 @@ public class Main {
         alquiler.setCIF(sc.nextLine());
         System.out.println("Matricula del coche alquilado");
         String matricula = sc.nextLine();
-        alquiler.setMatricula(matricula);
-        alquiler.setFechaInicio(fecha);
-        alquiler.setFechaFin(null);
-        alquiler.setImporte(0);
-
-
-        VehiculosEntity vehiculo=con.leerCoche(matricula);
-        vehiculo.setEstaEnTaller(false);
-        con.guardarV(vehiculo);
-        con.guardarA(alquiler);
+        VehiculosEntity vehiculo = con.leerCoche(matricula);
+        if(vehiculo.isEstaEnTaller()==true){
+            System.out.println("El coche de la matricula introducida esta en el taller");
+        }else{
+            alquiler.setMatricula(matricula);
+            alquiler.setFechaInicio(fecha);
+            alquiler.setFechaFin(null);
+            alquiler.setImporte(0);
+            con.guardarA(alquiler);
+        }
     }
 
     public static void insertar() throws Exception {
