@@ -33,11 +33,19 @@ public class Conexion {
         return vehiculo;
     }
 
-    public AlquileresEntity leerAlquiler(String id) throws Exception {
+    public List primerCoche() throws Exception {
+        abrir();
+        List lista=session.createQuery(
+                "SELECT 'v.matricula' FROM VehiculosEntity v left join AlquileresEntity a on v.matricula=a.matricula WHERE a.id is null or a.fechaFin is not null").getResultList();
+        cerrar();
+        return lista;
+    }
+
+    public AlquileresEntity leerAlquiler(int id) throws Exception {
         abrir();
         AlquileresEntity alquiler = session.get(AlquileresEntity.class, id);
         cerrar();
-        System.out.println(alquiler.getMatricula()+" "+alquiler.getMarca()+" "+alquiler.getModelo());
+        System.out.println(alquiler.getMatricula()+" "+alquiler.getCIF()+" "+alquiler.getId());
 
         return alquiler;
     }
@@ -68,11 +76,6 @@ public class Conexion {
         return id;
     }
 
-    public void actualizarV(VehiculosEntity vehiculos) throws Exception {
-        abrir();
-        session.update(vehiculos);
-        cerrar();
-    }
 
     private void abrir() throws Exception {
         setUp();
