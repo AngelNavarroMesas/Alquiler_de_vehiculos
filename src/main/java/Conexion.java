@@ -33,22 +33,68 @@ public class Conexion {
         return vehiculo;
     }
 
-    public List primerCoche() throws Exception {
+    public EmpresasEntity leerEmpresa(String CIF) throws Exception {
         abrir();
-        List lista=session.createQuery(
-                "SELECT 'v.matricula' FROM VehiculosEntity v left join AlquileresEntity a on v.matricula=a.matricula WHERE a.id is null or a.fechaFin is not null").getResultList();
+        EmpresasEntity empresa = session.get(EmpresasEntity.class, CIF);
         cerrar();
-        return lista;
+        System.out.println(empresa.getCIF()+" "+empresa.getNombre());
+
+        return empresa;
     }
 
     public AlquileresEntity leerAlquiler(int id) throws Exception {
         abrir();
-        AlquileresEntity alquiler = session.get(AlquileresEntity.class, id);
+        AlquileresEntity alq = session.get(AlquileresEntity.class, id);
         cerrar();
-        System.out.println(alquiler.getMatricula()+" "+alquiler.getCIF()+" "+alquiler.getId());
+        System.out.println(alq.getId()+" "+alq.getCIF()+" "+alq.getMatricula());
 
-        return alquiler;
+        return alq;
     }
+
+    public List primerCoche() throws Exception {
+        abrir();
+        List lista=session.createQuery(
+                "SELECT v.matricula FROM VehiculosEntity v left join AlquileresEntity a on v.matricula=a.matricula WHERE a.id is null or a.fechaFin is not null").getResultList();
+        cerrar();
+        return lista;
+    }
+
+    public void borrarCoche(VehiculosEntity coche) throws Exception {
+        abrir();
+        try{
+            session.delete(coche);
+            System.out.println("vehiculo borrado");
+
+        }catch (Exception e){
+            System.out.println("Error al intentar borrar el vehiculo");
+        }
+        cerrar();
+    }
+
+    public void borrarEmpresa(EmpresasEntity empresa) throws Exception {
+        abrir();
+        try{
+            session.delete(empresa);
+            System.out.println("empresa borrada");
+
+        }catch (Exception e){
+            System.out.println("Error al intentar borrar la empresa");
+        }
+        cerrar();
+    }
+
+    public void borrarAlquiler(AlquileresEntity alq) throws Exception {
+        abrir();
+        try{
+            session.delete(alq);
+            System.out.println("alquiler borrado");
+
+        }catch (Exception e){
+            System.out.println("Error al intentar borrar el alquiler");
+        }
+        cerrar();
+    }
+
 
     public List listar() throws Exception {
         abrir();
@@ -87,6 +133,5 @@ public class Conexion {
         transaction.commit();
         session.close();
     }
-
 
 }

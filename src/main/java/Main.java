@@ -22,7 +22,6 @@ public class Main {
             System.out.println("6- buscar coche por matricula");
             System.out.println("9- salir");
             op = sc.nextInt();
-
             switch (op) {
                 case 1:
                     insertar();
@@ -31,8 +30,8 @@ public class Main {
                     break;
                 //case 3: modificar();
                 //    break;
-                //case 4: borrar();
-                //    break;
+                case 4: borrar();
+                    break;
                 case 5:
                     alquilarCoche();
                     break;
@@ -43,6 +42,36 @@ public class Main {
                     salir();
                     break;
             }
+            op=0;
+        }
+    }
+
+    private static void borrar() throws Exception {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Que desea borrar?");
+        System.out.println("1. Un coche");
+        System.out.println("2. Una empresa");
+        System.out.println("3. Un alquiler");
+        int op = sc.nextInt();
+        switch (op) {
+            case 1:System.out.println("dame una matricula");
+                String mat = "";
+                mat = sc.nextLine();
+                VehiculosEntity coche = con.leerCoche(mat);
+                con.borrarCoche(coche);
+                break;
+            case 2:System.out.println("dame un CIF");
+                String cif = "";
+                cif = sc.nextLine();
+                EmpresasEntity emp = con.leerEmpresa(cif);
+                con.borrarEmpresa(emp);
+                break;
+            case 3:System.out.println("dame un id");
+                int id = 0;
+                id = sc.nextInt();
+                AlquileresEntity alq = con.leerAlquiler(id);
+                con.borrarAlquiler(alq);
+                break;
         }
     }
 
