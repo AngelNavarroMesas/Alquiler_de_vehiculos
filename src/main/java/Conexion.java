@@ -5,6 +5,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.util.Date;
 import java.util.List;
 
 public class Conexion {
@@ -54,9 +55,26 @@ public class Conexion {
     public List primerCoche() throws Exception {
         abrir();
         List lista=session.createQuery(
-                "SELECT v.matricula FROM VehiculosEntity v left join AlquileresEntity a on v.matricula=a.matricula WHERE a.id is null or a.fechaFin is not null").getResultList();
+                "SELECT v.matricula FROM VehiculosEntity v left join AlquileresEntity a on v.matricula=a.matricula WHERE a.id is null or a.fechaFin is not null").setMaxResults(1).getResultList();
         cerrar();
         return lista;
+    }
+
+    public List buscarAlquiler(String cocheKBusco, String empresaKBusco) throws Exception {
+        abrir();
+        List lista=session.createQuery(
+                "SELECT id FROM AlquileresEntity WHERE matricula like concat('%',:cocheBuscado,'%') and CIF like :empresaBuscada and fechaFin is null").setParameter("cocheBuscado", cocheKBusco).setParameter("empresaBuscada", empresaKBusco).getResultList();
+        cerrar();
+        return lista;
+    }
+
+    public void actualizarAlquiler(int id) throws Exception {
+        abrir();
+        java.util.Date fecha = new Date();
+        AlquileresEntity alquiler = session.get(AlquileresEntity.class, id);
+        alquiler.setFechaFin(fecha);
+        session.update(alquiler);
+        cerrar();
     }
 
     public void borrarCoche(VehiculosEntity coche) throws Exception {
@@ -98,26 +116,42 @@ public class Conexion {
 
     public List listar() throws Exception {
         abrir();
-        List lista= session.getNamedQuery("listaVehiculos").getResultList();
+        List lista=session.createQuery(
+                "SELECT '*' FROM VehiculosEntity").getResultList();
         cerrar();
         return lista;
     }
 
     public String guardarE(EmpresasEntity empresa) throws Exception {
         abrir();
-        String id = (String) session.save(empresa);
+        String id = null;
+        try {
+            id = (String) session.save(empresa);
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
         cerrar();
         return id;
     }
     public String guardarV(VehiculosEntity vehiculos) throws Exception {
         abrir();
-        String id = (String) session.save(vehiculos);
+        String id = null;
+        try {
+            id = (String) session.save(vehiculos);
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
         cerrar();
         return id;
     }
     public String guardarA(AlquileresEntity alquiler) throws Exception {
         abrir();
-        String id = (String) session.save(alquiler);
+        String id = null;
+        try {
+            id = (String) session.save(alquiler);
+        } catch (Exception e) {
+            System.out.println("Error");
+        }
         cerrar();
         return id;
     }

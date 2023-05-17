@@ -11,12 +11,12 @@ public class Main {
     }
     public static void menu() throws Exception {
         int op=0;
-        while(op!=9) {
+        while(op<9) {
             Scanner sc = new Scanner(System.in);
             System.out.println("Elige una opcion");
             System.out.println("1- insertar");
             System.out.println("2- listar coche");
-            System.out.println("3- modificar");
+            System.out.println("3- devolver vehiculo");
             System.out.println("4- borrar");
             System.out.println("5- alquilar coche");
             System.out.println("6- buscar coche por matricula");
@@ -28,8 +28,8 @@ public class Main {
                     break;
                 case 2: listarcoche();
                     break;
-                //case 3: modificar();
-                //    break;
+                case 3: finAlquiler();
+                    break;
                 case 4: borrar();
                     break;
                 case 5:
@@ -39,11 +39,21 @@ public class Main {
                     buscarcoche();
                     break;
                 case 9:
-                    salir();
+                    System.out.println("Saliendo......");
                     break;
             }
-            op=0;
         }
+    }
+
+    public static void finAlquiler() throws Exception {
+        Scanner sc = new Scanner(System.in);
+        String cif, matricula;
+        System.out.println("Introduzca el cif de la empresa");
+        cif = sc.nextLine();
+        System.out.println("Introduzca la matricula del vehiculo a devolder");
+        matricula = sc.nextLine();
+        int id = (int) con.buscarAlquiler(matricula, cif).get(0);
+        con.actualizarAlquiler(id);
     }
 
     private static void borrar() throws Exception {
@@ -139,9 +149,7 @@ public class Main {
         }else{
             System.out.println("La conexion no funciona");
         }
-        sc.close();
+        //sc.close();
     }
-
-    public static void salir(){}
 
 }
